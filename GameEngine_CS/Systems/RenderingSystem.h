@@ -12,5 +12,10 @@ public:
 
 	void tick(ECS::World* world, float detlaTime) override;
 
+private:
+	std::unordered_map<std::string, sf::Texture*> textureMap;
+
+	sf::Texture* LoadTexture(std::string textureFile);
+
 
 };

@@ -35,11 +35,6 @@ Engine::Engine(Engine&& other)
 {
 }
 
-Engine& Engine::operator=(Engine)
-{
-	// TODO: insert return statement here
-}
-
 Engine::~Engine(void)
 {
 }
