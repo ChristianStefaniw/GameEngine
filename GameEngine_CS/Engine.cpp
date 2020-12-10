@@ -27,13 +27,6 @@ Engine::Engine(void)
 {
 }
 
-Engine::Engine(Engine& copy)
-{
-}
-
-Engine::Engine(Engine&& other)
-{
-}
 
 Engine::~Engine(void)
 {

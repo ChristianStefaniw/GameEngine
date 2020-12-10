@@ -17,7 +17,7 @@ public:
 };
 
 
-struct Sprite2D{
+struct Sprite2D {
 public:
 	ECS_DECLARE_TYPE;
 
@@ -28,8 +28,39 @@ public:
 	Sprite2D(std::string name) {
 		texturePath = name;
 	}
+};
+
+struct Animator{
+	ECS_DECLARE_TYPE;
+
+	int spriteWidth, spriteHeight;
+	int currentColumn, currentRow;
+	int totalColumns, totalRows;
+
+	float currentTime, nextFrameTime;
+
+	bool bFacingRight;
+
+	Animator(int newWidth, int newHeight, float timeBetweenFrames, int newColumns, int newRows)
+	{
+		this->spriteWidth = newWidth;
+		this->spriteHeight = newHeight;
+
+		currentColumn = 0;
+		currentRow = 0;
+
+		this->totalColumns = newColumns;
+		this->totalRows = newRows;
+
+		this->nextFrameTime = timeBetweenFrames;
+
+		currentTime = 0;
+		
+		bFacingRight = true;
+	}
+};
 
 
-}
 ECS_DEFINE_TYPE(Sprite2D);
 ECS_DEFINE_TYPE(Transform);
+ECS_DEFINE_TYPE(Animator)

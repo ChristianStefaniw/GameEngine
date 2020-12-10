@@ -50,6 +50,8 @@ sf::Texture* RenderingSystem::LoadTexture(std::string textureFile)
 	if (!_textureRef->loadFromFile(textureFile)) {
 		std::cerr << "Unable to load image " << textureFile << ".\nIs this image in the correct directory?" << std::endl;
 		system("Pause");
+
+		exit(EXIT_FAILURE);
 	}
 
 	return _textureRef;
