@@ -60,7 +60,6 @@ struct Animator{
 	}
 };
 
-
 ECS_DEFINE_TYPE(Sprite2D);
 ECS_DEFINE_TYPE(Transform);
 ECS_DEFINE_TYPE(Animator)
