@@ -1,18 +1,27 @@
 #pragma once
+#include <iostream>
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include "ECS.h"
+
 #include "Components.h"
+#include "Interface/MainCamera.h"
 
 #include "Systems/RenderingSystem.h"
 #include "Systems/AnimationSystem.h"
+#include "Systems/InputSystem.h"
+#include "Systems/MovementSystem.h"
+#include "Systems/PhysicSystem.h"
+
+
 
 class Engine
 {
 public:
 	sf::RenderWindow* window;
 	ECS::World* world;
+
+	class MainCamera mainCam;
 
 	static Engine& GetInstance(void);
 	void Start(sf::RenderWindow* win);

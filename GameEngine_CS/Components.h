@@ -8,11 +8,30 @@ struct Transform {
 public:
 	ECS_DECLARE_TYPE;
 
-	float xPos, yPos, rotation;
+	float xPos, yPos, rotation, xSpeed, ySpeed, xSpeedMod, ySpeedMod;
 
-	Transform(float newX, float newY) : xPos(newX), yPos(newY)
+	Transform(float newX, float newY, float newXSpeed = 0.0f, float newYSpeed = 0.0f)
+		: xPos(newX), yPos(newY), xSpeedMod(newXSpeed), ySpeedMod(newYSpeed)
 	{
 		this->rotation = 0.0f;
+		this->xSpeed = 0.0f;
+		this->ySpeed = 0.0f;
+	}
+
+	void UpdateSpeed(float x, float y) {
+		this->xSpeed = x;
+		this->ySpeed = y;
+	}
+
+	void Move() {
+		// halve the speed when moving diagnolly
+		if (xSpeed != 0 && ySpeed != 0) {
+			xSpeed /= 2;
+			ySpeed /= 2;
+		}
+
+		xPos += xSpeed;
+		yPos += ySpeed;
 	}
 };
 
@@ -60,6 +79,59 @@ struct Animator{
 	}
 };
 
+struct InputController {
+public:
+	ECS_DECLARE_TYPE;
+
+	bool bInputActive;
+
+	bool wKey, aKey, sKey, dKey;
+
+	InputController() {
+		bInputActive = true;
+		wKey = false;
+		aKey = false;
+		sKey = false;
+		dKey = false;
+	}
+
+};
+
+struct BoxCollider {
+public:
+	ECS_DECLARE_TYPE;
+
+	int leftEdge, rightEdge, topEdge, bottomEdge;
+
+	BoxCollider() {
+		leftEdge = 0;
+		rightEdge = 0;
+		topEdge = 0;
+		bottomEdge = 0;
+	}
+
+	void Update(int xSide, int ySide, int width, int height) {
+		leftEdge = xSide;
+		rightEdge = xSide + width;
+		topEdge = ySide;
+		bottomEdge = ySide + height;
+	}
+};
+
+struct Camera {
+public:
+	ECS_DECLARE_TYPE;
+
+	sf::View cameraView;
+
+	Camera(sf::Vector2f pivot) {
+		cameraView.setCenter(pivot);
+	}
+};
+
+
+ECS_DEFINE_TYPE(InputController);
 ECS_DEFINE_TYPE(Sprite2D);
 ECS_DEFINE_TYPE(Transform);
-ECS_DEFINE_TYPE(Animator)
+ECS_DEFINE_TYPE(Animator);
+ECS_DEFINE_TYPE(Camera);

@@ -11,6 +11,9 @@ void Engine::Start(sf::RenderWindow* win)
 	bQuit = false;
 	window = win;
 
+	mainCam = MainCamera(sf::Vector2f(this->window->getSize().x/2,
+						window->getSize().y / 2));
+
 	while (window->isOpen()) {
 		Update();
 	}
@@ -44,4 +47,6 @@ void Engine::Update()
 		}
 	}
 	world->tick(10.0f);
+
+	mainCam.Update(world, 10.0f, window);
 }
