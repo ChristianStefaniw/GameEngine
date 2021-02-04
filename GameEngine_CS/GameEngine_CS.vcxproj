@@ -146,7 +146,11 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EngineMain.cpp" />
+    <ClCompile Include="Interface\Button.cpp" />
+    <ClCompile Include="Interface\ButtonMap.cpp" />
     <ClCompile Include="Interface\MainCamera.cpp" />
+    <ClCompile Include="Interface\PauseMenu.cpp" />
+    <ClCompile Include="Interface\States.cpp" />
     <ClCompile Include="Systems\PhysicSystem.cpp" />
     <ClCompile Include="Systems\AnimationSystem.cpp" />
     <ClCompile Include="Systems\InputSystem.cpp" />
@@ -157,7 +161,11 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Interface\Button.h" />
+    <ClInclude Include="Interface\ButtonMap.h" />
     <ClInclude Include="Interface\MainCamera.h" />
+    <ClInclude Include="Interface\PauseMenu.h" />
+    <ClInclude Include="Interface\States.h" />
     <ClInclude Include="Systems\PhysicSystem.h" />
     <ClInclude Include="Systems\AnimationSystem.h" />
     <ClInclude Include="Systems\InputSystem.h" />
