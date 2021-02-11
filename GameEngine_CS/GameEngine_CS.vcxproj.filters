@@ -39,9 +39,6 @@
     <ClCompile Include="Systems\InputSystem.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\PhysicSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\MainCamera.cpp">
       <Filter>Interface</Filter>
     </ClCompile>
@@ -56,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="Interface\Button.cpp">
       <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\PhysicSystem.cpp">
+      <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +80,6 @@
     <ClInclude Include="Systems\MovementSystem.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\PhysicSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\MainCamera.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -97,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="Interface\Button.h">
       <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\PhysicSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

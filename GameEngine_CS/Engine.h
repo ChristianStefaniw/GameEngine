@@ -7,6 +7,11 @@
 #include "Components.h"
 #include "Interface/MainCamera.h"
 
+#include "Interface/Button.h"
+#include "Interface/ButtonMap.h"
+#include "Interface/States.h"
+#include "Interface/PauseMenu.h"
+
 #include "Systems/RenderingSystem.h"
 #include "Systems/AnimationSystem.h"
 #include "Systems/InputSystem.h"
@@ -22,6 +27,7 @@ public:
 	ECS::World* world;
 
 	class MainCamera mainCam;
+	class PauseMenu pauseMenu;
 
 	static Engine& GetInstance(void);
 	void Start(sf::RenderWindow* win);
@@ -40,5 +46,6 @@ private:
 	~Engine(void);
 
 	void Update();
+	void GameInactiveStateActions();
 };
 

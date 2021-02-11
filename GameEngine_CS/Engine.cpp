@@ -11,6 +11,8 @@ void Engine::Start(sf::RenderWindow* win)
 	bQuit = false;
 	window = win;
 
+	pauseMenu = PauseMenu(this->window);
+
 	mainCam = MainCamera(sf::Vector2f(this->window->getSize().x/2,
 						window->getSize().y / 2));
 
@@ -45,8 +47,20 @@ void Engine::Update()
 		if (_event.type == sf::Event::Closed) {
 			window->close();
 		}
+
+		pauseMenu.Update(_event, 10.0f, window);
+
 	}
 	world->tick(10.0f);
 
 	mainCam.Update(world, 10.0f, window);
+
+	if (States::GetPausedState()) {
+		GameInactiveStateActions();
+	}
+}
+
+void Engine::GameInactiveStateActions()
+{
+	pauseMenu.Render(window, 10.0f, mainCam.cameraView.getCenter());
 }

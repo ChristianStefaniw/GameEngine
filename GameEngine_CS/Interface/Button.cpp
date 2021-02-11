@@ -62,7 +62,7 @@ void Button::Render(sf::RenderWindow* window, float deltaTime)
 
 void Button::CheckPressed(sf::Event event)
 {
-	if (this->bClicked == true) {
+	if (this->bHighlighted == true) {
 		if (event.type == sf::Event::MouseButtonPressed) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				this->bPressed = true;
