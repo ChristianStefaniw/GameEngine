@@ -130,6 +130,19 @@ public:
 };
 
 
+struct Tag
+{
+	ECS_DECLARE_TYPE;
+
+	std::vector<std::string> tagNames;
+
+	Tag() {};
+
+	void AddTag(std::string tag) {
+		tagNames.push_back(tag);
+	}
+};
+
 ECS_DEFINE_TYPE(InputController);
 ECS_DEFINE_TYPE(Sprite2D);
 ECS_DEFINE_TYPE(Transform);
