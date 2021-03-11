@@ -23,6 +23,7 @@ int main(int argc, char* args[])
 	gameEngine.AddSystem(new InputSystem(&window));
 	gameEngine.AddSystem(new MovementSystem());
 	gameEngine.AddSystem(new PhysicSystem());
+	gameEngine.AddSystem(new TileMapSystem());
 
 
 	// Create 3 entities to the world
@@ -36,6 +37,7 @@ int main(int argc, char* args[])
 	background->assign<Sprite2D>("../Debug/Pics/bg.jpg");
 	background->assign<Tag>();
 	background->get<Tag>()->AddTag("Background");
+	background->assign<TileMap>();
 
 	stickFigure->assign<Transform>(300, 300, 0.2f, 0.0f);
 	stickFigure->assign<Sprite2D>("../Debug/Pics/herosheet.png");

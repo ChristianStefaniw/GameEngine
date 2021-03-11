@@ -206,6 +206,43 @@ void PhysicSystem::tick(ECS::World* world, float deltaTime)
 					sprite->picture.getTextureRect().height);
 			});
 
+		world->each<Transform, BoxCollider>(
+			[&](
+			ECS::Entity* touchingEntity,
+			ECS::ComponentHandle<Transform> transform,
+			ECS::ComponentHandle<BoxCollider> box
+			) -> void{
+				world->each<TileMap>(
+					[&](ECS::Entity* touchedEntity, ECS::ComponentHandle<TileMap> tileMap) -> void {
+
+						/* loop through tilemap */
+						for (auto& x : tileMap->map) {
+							for (auto& y : x) {
+								for (auto& z : y) {
+
+									if (!z) {
+										return;
+									}
+
+									/* Avoid comparing entity to itself */
+									if (touchingEntity->getEntityId() == touchedEntity->getEntityId()) {
+										return;
+									}
+
+									if (z->getCollision()) {
+										if (IsColliding(box, z->shape, transform->xSpeed, transform->ySpeed)) {
+											CheckCollision(transform, box, z->shape);
+										}
+									}
+								}
+							}
+						}
+					}
+				);
+			}
+		);
+
+
 		world->each<struct BoxCollider, struct Transform, struct Tag>(
 			[&](ECS::Entity* touchingEntity,
 				ECS::ComponentHandle<struct BoxCollider> touchingBox,
@@ -231,6 +268,8 @@ void PhysicSystem::tick(ECS::World* world, float deltaTime)
 					});
 			}
 		);
+
+
 
 		world->each<struct Transform>(
 			[&](ECS::Entity* entity,
