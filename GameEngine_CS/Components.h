@@ -12,6 +12,7 @@ public:
 	ECS_DECLARE_TYPE;
 
 	float xPos, yPos, rotation, xSpeed, ySpeed, xSpeedMod, ySpeedMod;
+	bool bColliding;
 
 	Transform(float newX, float newY, float newXSpeed = 0.0f, float newYSpeed = 0.0f)
 		: xPos(newX), yPos(newY), xSpeedMod(newXSpeed), ySpeedMod(newYSpeed)
@@ -19,6 +20,7 @@ public:
 		this->rotation = 0.0f;
 		this->xSpeed = 0.0f;
 		this->ySpeed = 0.0f;
+		this->bColliding = false;
 	}
 
 	void UpdateSpeed(float x, float y) {
@@ -28,13 +30,16 @@ public:
 
 	void Move() {
 		// halve the speed when moving diagnolly
-		if (xSpeed != 0 && ySpeed != 0) {
-			xSpeed /= 2;
-			ySpeed /= 2;
-		}
+		if (!bColliding) {
+			if (xSpeed != 0 && ySpeed != 0) {
+				xSpeed /= 2;
+				ySpeed /= 2;
+			}
 
-		xPos += xSpeed;
-		yPos += ySpeed;
+			xPos += xSpeed;
+			yPos += ySpeed;
+		}
+		
 	}
 };
 

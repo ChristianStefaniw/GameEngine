@@ -21,8 +21,7 @@ bool PhysicSystem::IsColliding(ECS::ComponentHandle<struct BoxCollider> touching
 }
 
 bool PhysicSystem::IsColliding(ECS::ComponentHandle<struct BoxCollider> touchingBox,
-	sf::RectangleShape touchedRectangle, 
-	float x, float y)
+	sf::RectangleShape touchedRectangle, float x, float y)
 {
 	float _touchedRectLeft = touchedRectangle.getPosition().x;
 	float _touchedRectRight = _touchedRectLeft + 
@@ -35,6 +34,22 @@ bool PhysicSystem::IsColliding(ECS::ComponentHandle<struct BoxCollider> touching
 		_touchedRectRight > touchingBox->leftEdge + x &&
 		touchingBox->bottomEdge + y > _touchedRectTop &&
 		_touchedRectBottom > touchingBox->rightEdge + y;
+}
+
+bool PhysicSystem::IsColliding(ECS::ComponentHandle<struct BoxCollider> touchingBox,
+	sf::RectangleShape touchedRectangle)
+{
+	float _touchedRectLeft = touchedRectangle.getPosition().x;
+	float _touchedRectRight = touchedRectangle.getPosition().x +
+		touchedRectangle.getGlobalBounds().width;
+	float _touchedRectTop = touchedRectangle.getPosition().y;
+	float _touchedRectBottom = touchedRectangle.getPosition().y +
+		touchedRectangle.getGlobalBounds().height;
+
+	return touchingBox->rightEdge > _touchedRectLeft &&
+		_touchedRectRight > touchingBox->leftEdge &&
+		touchingBox->bottomEdge > _touchedRectTop &&
+		_touchedRectBottom > touchingBox->rightEdge ;
 }
 
 bool PhysicSystem::IsColliding(ECS::ComponentHandle<struct BoxCollider> touchingBox,
@@ -159,7 +174,7 @@ void PhysicSystem::PushEntity(ECS::Entity* touchingEntity, ECS::Entity* touchedE
 		if (std::find(
 			touchingEntity->get<Tag>()->tagNames.begin(),
 			touchingEntity->get<Tag>()->tagNames.end(),
-			"Object")
+			"Player")
 			!= touchingEntity->get<Tag>()->tagNames.end())
 		{
 			// traveling rightward poushing left side
@@ -206,33 +221,46 @@ void PhysicSystem::tick(ECS::World* world, float deltaTime)
 					sprite->picture.getTextureRect().height);
 			});
 
-		world->each<Transform, BoxCollider>(
+
+
+		world->each<BoxCollider, Transform>(
 			[&](
 			ECS::Entity* touchingEntity,
-			ECS::ComponentHandle<Transform> transform,
-			ECS::ComponentHandle<BoxCollider> box
+			ECS::ComponentHandle<BoxCollider> touchingBox,
+			ECS::ComponentHandle<Transform> transform
 			) -> void{
+					world->each<struct BoxCollider>(
+						[&](ECS::Entity* touchedEntity,
+							ECS::ComponentHandle<struct BoxCollider> touchedBox) -> void
+						{
+							if (touchedEntity->getEntityId() == touchingEntity->getEntityId()) {
+								return;
+							}
+
+							if (!IsColliding(touchingBox, touchedBox)) {
+								return;
+							}
+
+							PushEntity(touchingEntity, touchedEntity);
+						}
+					);
 				world->each<TileMap>(
-					[&](ECS::Entity* touchedEntity, ECS::ComponentHandle<TileMap> tileMap) -> void {
+					[&](ECS::Entity* tileMapEntity, ECS::ComponentHandle<TileMap> tileMap) -> void {
+
+						transform->bColliding = false;
 
 						/* loop through tilemap */
 						for (auto& x : tileMap->map) {
 							for (auto& y : x) {
 								for (auto& z : y) {
 
-									if (!z) {
-										return;
+									if (z == nullptr || !z->bColliding) {
+										continue;
 									}
-
-									/* Avoid comparing entity to itself */
-									if (touchingEntity->getEntityId() == touchedEntity->getEntityId()) {
-										return;
-									}
-
-									if (z->getCollision()) {
-										if (IsColliding(box, z->shape, transform->xSpeed, transform->ySpeed)) {
-											CheckCollision(transform, box, z->shape);
-										}
+									if (IsColliding(touchingBox, z->shape, transform->xSpeed, transform->ySpeed)) {
+										//CheckCollision(transform, box, z->shape);
+										transform->bColliding = true;
+										std::cout << "Collision\n";
 									}
 								}
 							}

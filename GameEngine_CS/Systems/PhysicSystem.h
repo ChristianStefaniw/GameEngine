@@ -15,10 +15,15 @@ public:
 		float x, float y
 	);
 
+	// collision with a rectangle
 	bool IsColliding(
 		ECS::ComponentHandle<struct BoxCollider> touchingBox,
-		sf::RectangleShape touchedRectangle,
-		float x, float y
+		sf::RectangleShape touchedRectangle, float x, float y
+	);
+
+	bool IsColliding(
+		ECS::ComponentHandle<struct BoxCollider> touchingBox,
+		sf::RectangleShape touchedRectangle
 	);
 
 	bool IsColliding(
